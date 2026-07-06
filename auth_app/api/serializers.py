@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 
 class RegistrationSerializer(serializers.Serializer):
-    full_name = serializers.CharField(write_only=True)
+    fullname = serializers.CharField(write_only=True)
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
     repeated_password = serializers.CharField(write_only=True)
@@ -24,7 +24,7 @@ class RegistrationSerializer(serializers.Serializer):
         return data
 
     def create(self, validated_data):
-        full_name = validated_data.pop("full_name").strip()
+        full_name = validated_data.pop("fullname").strip()
         repeated_password = validated_data.pop("repeated_password")
         email = validated_data["email"]
 

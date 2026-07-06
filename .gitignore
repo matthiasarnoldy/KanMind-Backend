@@ -1,0 +1,37 @@
+# --- Python ---
+__pycache__/
+*.py
+*.pyo
+*.pyd
+*.pkl
+*.log
+
+# --- Virtuelle Umgebung ---
+venv/
+env/
+.venv/
+.env
+
+# --- Distribution/Packaging ---
+build/
+dist/
+*.egg-info/
+*.eggs
+
+# --- Tests/Coverage ---
+.coverage
+htmlcov/
+.tox/
+.pytest_cache/
+
+# --- IDE/Editor ---
+# idea kommt bspw. von Webstorm
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --- System Files ---
+.DS_Store
+# Datenbanken
+Thumbs.db
