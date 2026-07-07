@@ -13,7 +13,6 @@ class RegistrationView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        raise Exception("force 500")
         serializer = RegistrationSerializer(data=request.data)
 
         if serializer.is_valid():
@@ -34,7 +33,6 @@ class CustomLoginView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
-        raise Exception("force 500")
         serializer = EmailLoginSerializer(data=request.data, context={"request": request})
 
         if serializer.is_valid():
