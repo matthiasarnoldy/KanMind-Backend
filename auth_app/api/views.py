@@ -28,7 +28,7 @@ class RegistrationView(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-class CustomLoginView(APIView):
+class EmailLoginView(APIView):
     authentication_classes = []
     permission_classes = [AllowAny]
 
