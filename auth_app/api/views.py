@@ -1,8 +1,10 @@
+from django.contrib.auth.models import User
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, serializers
 from rest_framework.authtoken.models import Token
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from .serializers import RegistrationSerializer, EmailLoginSerializer
 
@@ -27,6 +29,42 @@ class RegistrationView(APIView):
             }, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class EmailCheckView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        email = request.query_params.get("email")
+        if not email:
+            return Response(
+                {"detail": "email query parameter is required"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        
+        try:
+            serializers.EmailField().run_validation(email)
+        except serializers.ValidationError:
+            return Response(
+                {"detail": "email is invalid"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return Response(
+                {"detail": "user not found"},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        return Response(
+            {
+                "id": user.id,
+                "email": user.email,
+                "fullname": user.get_full_name(),
+            },
+            status=status.HTTP_200_OK,
+        )
     
 class EmailLoginView(APIView):
     authentication_classes = []
