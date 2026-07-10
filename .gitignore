@@ -35,3 +35,4 @@ htmlcov/
 .DS_Store
 # Datenbanken
 Thumbs.db
+db.sqlite3
