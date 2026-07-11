@@ -5,7 +5,7 @@ from rest_framework import generics, permissions
 
 from kanban_app.models import Board, Task, Comment
 from kanban_app.api.serializers import BoardSerializer, BoardDetailSerializer, BoardPatchResponseSerializer, TaskSerializer, CommentSerializer
-from kanban_app.api.permissions import IsBoardMemberOrOwner
+from kanban_app.api.permissions import IsBoardMemberOrOwner, IsOwner
 
 class BoardListCreateView(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -26,6 +26,11 @@ class BoardDetailView(generics.RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         user = self.request.user
         return Board.objects.all()
+    
+    def get_permissions(self):
+        if self.request.method == "DELETE":
+            return [IsOwner()]
+        return [IsBoardMemberOrOwner()]
     
     def get_serializer_class(self):
         if self.request.method in ("PATCH", "PUT"):
